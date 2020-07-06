@@ -3,7 +3,7 @@ Daily update of corona virus in public transportation
 
 Needed to run this script:
   1. geckodriver-v0.26.0-win64.
-  2. Mozilla Firefox.
+  2. Mozilla Firefox (too big to add here, please download online)
   3. the added files here.
 
 Explanation:
