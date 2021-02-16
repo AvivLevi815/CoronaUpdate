@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [INFO  - 2020-06-12T14:19:54.149Z] GhostDriver - Main - running on port 52355
 [INFO  - 2020-06-12T14:19:58.504Z] Session [cbb52360-acb7-11ea-93f1-7561a1e72b43] - page.settings - {"XSSAuditingEnabled":false,"javascriptCanCloseWindows":true,"javascriptCanOpenWindows":true,"javascriptEnabled":true,"loadImages":true,"localToRemoteUrlAccessEnabled":false,"userAgent":"Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1","webSecurityEnabled":true}
 [INFO  - 2020-06-12T14:19:58.504Z] Session [cbb52360-acb7-11ea-93f1-7561a1e72b43] - page.customHeaders:  - {}
@@ -6,3 +7,13 @@
 Fatal Windows exception, code 0xc0000005.
 PhantomJS has crashed. Please read the bug reporting guide at
 <http://phantomjs.org/bug-reporting.html> and file a bug report.
+=======
+[INFO  - 2020-06-12T14:19:54.149Z] GhostDriver - Main - running on port 52355
+[INFO  - 2020-06-12T14:19:58.504Z] Session [cbb52360-acb7-11ea-93f1-7561a1e72b43] - page.settings - {"XSSAuditingEnabled":false,"javascriptCanCloseWindows":true,"javascriptCanOpenWindows":true,"javascriptEnabled":true,"loadImages":true,"localToRemoteUrlAccessEnabled":false,"userAgent":"Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1","webSecurityEnabled":true}
+[INFO  - 2020-06-12T14:19:58.504Z] Session [cbb52360-acb7-11ea-93f1-7561a1e72b43] - page.customHeaders:  - {}
+[INFO  - 2020-06-12T14:19:58.507Z] Session [cbb52360-acb7-11ea-93f1-7561a1e72b43] - Session.negotiatedCapabilities - {"browserName":"phantomjs","version":"2.1.1","driverName":"ghostdriver","driverVersion":"1.2.0","platform":"windows-10-32bit","javascriptEnabled":true,"takesScreenshot":true,"handlesAlerts":false,"databaseEnabled":false,"locationContextEnabled":false,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"cssSelectorsEnabled":true,"webStorageEnabled":false,"rotatable":false,"acceptSslCerts":false,"nativeEvents":true,"proxy":{"proxyType":"direct"}}
+[INFO  - 2020-06-12T14:19:58.508Z] SessionManagerReqHand - _postNewSessionCommand - New Session Created: cbb52360-acb7-11ea-93f1-7561a1e72b43
+Fatal Windows exception, code 0xc0000005.
+PhantomJS has crashed. Please read the bug reporting guide at
+<http://phantomjs.org/bug-reporting.html> and file a bug report.
+>>>>>>> db54a00679a3b65f8b584f3730fdce88a5d93a4a
