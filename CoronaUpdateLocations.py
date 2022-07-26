@@ -18,6 +18,8 @@ def init_google():
     gmaps = GoogleMaps('AIzaSyAH-SEZ1C_8Kb1ACyPCZZpZAJKKDuWD3Ro')
     return gmaps
 
+# call Google API- 
+# get lat, lng by address + name.
 def address_to_latlng(address, city, name, gmaps):
     if city.strip() == "":
         return {"lat": "null", "lng": "null"}
@@ -31,6 +33,16 @@ def address_to_latlng(address, city, name, gmaps):
         return {"lat": "null", "lng": "null"}
     except Exception as e:
         print("Unexpected error occurred.", e)
+
+
+# unite all rows with same location to a dict
+# Final format:
+# {(lat, kng) : ["key": <unique key>,
+#                "name":<location name>,
+#                "city":<location city>,
+#                "address":<location address>,
+#                "location":<location lat, lng>, # original lat,lng 
+#                "datetime": <datetime of corona case>}
 
 
 def compress(jsons):
@@ -50,6 +62,8 @@ def compress(jsons):
     return  by_coord
 
 
+#convert every row of data to python dict
+#use google API to retrieve coordinates
 def rows_to_dicts(rows, gmaps = None):
     translations = {"ישוב" : "city", "מקום" : "name" , "כתובת": "address",
                     "החל מתאריך" : "date", "עד תאריך": "to_date","פירוט נוסף":"added information",
@@ -77,6 +91,7 @@ def print_rows(page_rows):
     for row in page_rows:
         print(row)
 
+# all rides to one list
 def unite_pages(pages):
     all_rows = []
     for page in pages:
@@ -85,6 +100,8 @@ def unite_pages(pages):
     return all_rows
 
 # 2-D arrays - [page in website][row number]
+
+# get only rides that did not exist in yesterday_rides
 def get_new_rides(yesterday_rides, today_rides):
     yesterday_rides = unite_pages(yesterday_rides)
     today_rides = unite_pages(today_rides)
@@ -94,32 +111,37 @@ def get_new_rides(yesterday_rides, today_rides):
         print("no new rides")
     return new_rides
 
+
 print(time.localtime())
+
+# Init Google API
 gmaps = init_google()
 binary = r'Mozilla Firefox\firefox.exe'
 
+# Use headless browser
 options = Options()
-options.add_argument("-headless")
-options.add_argument("headless")
 options.add_argument("--headless")
 
 options.headless = True
+
+#Browser location
 options.binary = binary
 cap = DesiredCapabilities().FIREFOX
 # cap["marionette"] = True #optional
 
-
-
-
+# set driver
 driver = webdriver.Firefox(options=options, executable_path="geckodriver-v0.26.0-win64\\geckodriver.exe")#, capabilities=cap)
-
 driver.get("https://coronaupdates.health.gov.il/corona-updates/grid/place")
 
 all_rows = []
 prev_rows = []
+
+# init parser
 soup = BeautifulSoup(driver.page_source, 'html.parser')
 page_rows =  len(soup.findAll("mat-row"))
 page_counter = 0
+
+#scrape first page
 while(page_rows == 0):
     print("loading website.. sleeping 10 seconds..")
     time.sleep(10)
@@ -131,7 +153,7 @@ page_counter = page_counter + 1
 place_counter = page_rows
 page_rows = rows_to_dicts(soup.findAll("mat-row"), gmaps)
 
-#
+#scrape other pages
 while(prev_rows != page_rows): # until we reach last page
     all_rows.append(page_rows)
     prev_rows = page_rows
@@ -146,17 +168,16 @@ while(prev_rows != page_rows): # until we reach last page
         page_counter = page_counter + 1
 
 print ("done loading")
-#
 full_time = time.localtime()
 
 full_date = "{}_{}_{}".format(full_time.tm_mday,full_time.tm_mon,full_time.tm_year)
 
-# pickle.dump(all_rows, open("all_rows_{}".format(full_date), "wb"))
 print("pages: {}".format(page_counter))
 print("rides count: {}".format(place_counter))
 for row in all_rows:
     print(row)
 print("*********************************************************************")
+
 compressed = compress(unite_pages(all_rows))
 
 for_json = []
@@ -165,16 +186,10 @@ for coord in compressed:
 
 pickle.dump(for_json, open("db_pickle.json", "wb"))
 
-# with open('db.json', 'w') as outfile:
-#     json.dump(for_json, outfile)
-# driver.quit()
-
 print(time.localtime())
-
-# j = pickle.load(open("db_pickle.json", "rb")) # after fix
 
 with open('db.json', 'w', encoding='utf-8') as outfile:
     json.dump(for_json,outfile, ensure_ascii=False)
-# driver.quit()
+driver.quit()
 
 
